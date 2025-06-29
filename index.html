@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shayari App</title>
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#ffefba, #ffffff);
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #d7263d;
+    }
+    select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+    #shayariBox {
+      margin: 20px auto;
+      max-width: 600px;
+      background: #f7f7f7;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Shayari App 💬</h1>
+  <select id="categorySelect" onchange="changeCategory()">
+    <option value="love">Love ❤️</option>
+    <option value="sad">Sad 😢</option>
+    <option value="breakup">Breakup 💔</option>
+    <option value="motivation">Motivation 💪</option>
+  </select>
+  <div id="shayariBox">Select a category to start reading shayari.</div>
+  <button onclick="nextShayari()">Next Shayari ▶️</button>
+
+  <script>
+    const shayaris = {
+      love: ["Tere bina adhuri si lagti hai zindagi meri..."],
+      sad: ["Aansu bhi kehte hain ab toh bas kar..."],
+      breakup: ["Tera jaana bhi ek kahani ban gaya..."],
+      motivation: ["Sapne woh nahi jo neend mein aate hain..."]
+    };
+
+    let currentCategory = 'love';
+    let currentIndex = 0;
+
+    function changeCategory() {
+      currentCategory = document.getElementById("categorySelect").value;
+      currentIndex = 0;
+      showShayari();
+    }
+
+    function nextShayari() {
+      currentIndex++;
+      if (currentIndex >= shayaris[currentCategory].length) {
+        currentIndex = 0;
+      }
+      showShayari();
+    }
+
+    function showShayari() {
+      document.getElementById("shayariBox").innerText = shayaris[currentCategory][currentIndex];
+    }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✅ Service Worker Registered'))
+        .catch(err => console.error('❌ Service Worker Failed:', err));
+    }
+  </script>
+</body>
+</html>
